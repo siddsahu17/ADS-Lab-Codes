@@ -97,6 +97,7 @@ void PreOrderNR(Tree* Root){
         }
     }
 }
+
 void PostOrderNR(Tree* Root){
     if(Root == NULL) return;
     stack<Tree*> s1, s2;
@@ -162,7 +163,9 @@ void print_tree_level_order(Tree* Root){
 }
 
 Tree* findMin(Tree* Root){
-    while(Root->left != NULL) Root = Root->left;
+    while(Root->left != NULL){ 
+        Root = Root->left;
+    }
     return Root;
 }
 
@@ -264,7 +267,7 @@ int main(){
                 break;
 
             case 8:
-                cout << "Level-Order Traversal: \n";
+                cout << "Level-Wise Traversal/Printing: \n";
                 print_tree_level_order(Root);
                 break;
 
