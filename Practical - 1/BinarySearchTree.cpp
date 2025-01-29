@@ -3,7 +3,7 @@ using namespace std;
 
 struct Tree{
     int data; // to store data of the tree
-    Tree *left, *right; //Pointers for Tree0
+    Tree *left, *right; //Pointers for Tree
 };
 
 Tree* Create(int a){
@@ -30,7 +30,16 @@ Tree* Insert(Tree* Root, int a){
     return Root;
 }
 
-// Recursive Calling
+Tree* Search(Tree* Root, int key){
+    if(Root == NULL || Root->data == key){
+        return Root;
+    }
+    if(key < Root->data){
+        return Search(Root->left, key);
+    }
+    return Search(Root->right, key);
+}
+
 void InOrder(Tree* Root){
     if(Root == NULL){
         return;
@@ -61,7 +70,6 @@ void PostOrder(Tree* Root){
     cout << Root->data << " ";
 }
 
-// Non Recursive Calling
 void InOrderNR(Tree* Root){
     Tree *curr = Root;
     stack<Tree*> s;
@@ -114,7 +122,6 @@ void PostOrderNR(Tree* Root){
         s2.pop();
     }
 }
-
 int tree_height(Tree* Root){
     if(!Root){
         return 0;
@@ -150,12 +157,13 @@ void print_tree_level_order(Tree* Root){
     }
     int height = tree_height(Root);
     for(int i=0; i<height; i++){
-        cout << "Level : " << i;
+        cout << "Level " << i << " : ";
         printLevel(Root, i);
+        cout << endl;
     }
     cout << endl;
 
-    cout << "Complete Level Wise Traversal\n\n";
+    cout << "\nComplete Level Wise Traversal\n\n";
     for(int i = 0; i<height; i++){
         printLevel(Root, i);
     }
@@ -205,19 +213,18 @@ int main(){
     Root = Insert(Root,55);
     Root = Insert(Root,48);
     Root = Insert(Root,60);
-
     int choice, value;
 
     do{
         cout << "\nMenu:\n";
         cout << "1. Insert Node\n";
-        cout << "2. In-Order Traversal (Recursive)\n";
-        cout << "3. Pre-Order Traversal (Recursive)\n";
-        cout << "4. Post-Order Traversal (Recursive)\n";
-        cout << "5. In-Order Traversal (Non-Recursive)\n";
-        cout << "6. Pre-Order Traversal (Non-Recursive)\n";
-        cout << "7. Post-Order Traversal (Non-Recursive)\n";
-        cout << "8. Level-Order Traversal\n";
+        cout << "2. Search Node\n";
+        cout << "3. In-Order Traversal (Recursive)\n";
+        cout << "4. Pre-Order Traversal (Recursive)\n";
+        cout << "5. Post-Order Traversal (Recursive)\n";
+        cout << "6. In-Order Traversal (Non-Recursive)\n";
+        cout << "7. Pre-Order Traversal (Non-Recursive)\n";
+        cout << "8. Post-Order Traversal (Non-Recursive)\n";
         cout << "9. Delete Node\n";
         cout << "10. Exit\n";
         cout << "Enter your choice: ";
@@ -229,13 +236,14 @@ int main(){
                 cin >> value;
                 Root = Insert(Root, value);
                 break;
-
             case 2:
-                cout << "In-Order Traversal (Recursive): ";
-                InOrder(Root);
-                cout << endl;
+                cout << "Enter value to search: ";
+                cin >> value;
+                if(Search(Root, value))
+                    cout << "Node found!\n";
+                else
+                    cout << "Node not found!\n";
                 break;
-
             case 3:
                 cout << "Pre-Order Traversal (Recursive): ";
                 PreOrder(Root);
@@ -270,7 +278,7 @@ int main(){
                 cout << "Level-Wise Traversal/Printing: \n";
                 print_tree_level_order(Root);
                 break;
-
+            
             case 9:
                 cout << "Enter value to delete: ";
                 cin >> value;
@@ -280,7 +288,6 @@ int main(){
             case 10:
                 cout << "Exiting program." << endl;
                 break;
-
             default:
                 cout << "Invalid choice. Please try again." << endl;
                 break;
